@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SearchView from "../views/SearchView.vue";
 import AnimeDetails from "../views/AnimeDetails.vue";
+import AnimePopular from "@/views/AnimePopular.vue";
+import CharPopular from "@/views/CharPopular.vue";
 
 const routes = [
   {
@@ -19,6 +21,16 @@ const routes = [
     path: "/anime/:id",
     name: "AnimeDetails",
     component: AnimeDetails,
+  },
+  {
+    path: "/animePopular",
+    name: "animePopular",
+    component: AnimePopular,
+  },
+  {
+    path: "/popularChar",
+    name: "popularChar",
+    component: CharPopular,
   },
 ];
 

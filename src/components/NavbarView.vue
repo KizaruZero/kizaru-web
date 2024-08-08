@@ -6,7 +6,13 @@
       >
       <div>
         <router-link to="/" class="text-white mr-4">Home</router-link>
-        <router-link to="/search" class="text-white">Search</router-link>
+        <router-link to="/search" class="text-white mr-4">Search</router-link>
+        <router-link to="/animePopular" class="text-white mr-4"
+          >Anime Popular</router-link
+        >
+        <router-link to="/popularChar" class="text-white"
+          >Popular Character</router-link
+        >
       </div>
     </div>
   </nav>
