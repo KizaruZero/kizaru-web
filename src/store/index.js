@@ -4,27 +4,36 @@ import api from "@/services/api";
 export default createStore({
   state: {
     topAnimes: [],
+    topManga: [],
     topAnimeThisSeason: [],
     topCharacters: [],
+    animeRecommendations: [],
     allAnime: [],
     searchResults: [],
     currentPage: 1,
     loading: {
       topAnimes: false,
+      topManga: false,
       seasonAnime: false,
       characters: false,
+      animeRecommendations: false,
       allAnime: false,
     },
     error: {
       topAnimes: null,
+      topManga: null,
       seasonAnime: null,
       characters: null,
+      animeRecommendations: null,
       allAnime: null,
     },
   },
   mutations: {
     SET_TOP_ANIMES(state, animes) {
       state.topAnimes = animes;
+    },
+    SET_TOP_MANGA(state, manga) {
+      state.topManga = manga;
     },
     SET_SEARCH_RESULTS(state, results) {
       state.searchResults = results;
@@ -38,9 +47,13 @@ export default createStore({
     SET_TOP_CHARACTERS(state, characters) {
       state.topCharacters = characters;
     },
+    SET_ANIME_RECOMMENDATIONS(state, recommendations) {
+      state.animeRecommendations = recommendations;
+    },
     SET_ALL_ANIME(state, animes) {
       state.allAnime = [...state.allAnime, ...animes];
     },
+
     INCREMENT_PAGE(state) {
       state.currentPage++;
     },
@@ -64,6 +77,20 @@ export default createStore({
         });
       } finally {
         commit("SET_LOADING", { key: "topAnimes", isLoading: false });
+      }
+    },
+    async fetchTopManga({ commit }) {
+      commit("SET_LOADING", { key: "topManga", isLoading: true });
+      try {
+        const response = await api.getTopManga();
+        commit("SET_TOP_MANGA", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "topManga",
+          error: "Failed to fetch top manga",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "topManga", isLoading: false });
       }
     },
     async fetchTopAnimeThisSeason({ commit }) {
@@ -134,6 +161,24 @@ export default createStore({
         commit("SET_LOADING", { key: "allAnime", isLoading: false });
       }
     },
+
+    async fetchAnimeRecommendations({ commit }) {
+      commit("SET_LOADING", { key: "animeRecommendations", isLoading: true });
+      try {
+        const response = await api.getRecentAnimeRecommendations();
+        commit("SET_ANIME_RECOMMENDATIONS", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "animeRecommendations",
+          error: "Failed to fetch anime recommendations",
+        });
+      } finally {
+        commit("SET_LOADING", {
+          key: "animeRecommendations",
+          isLoading: false,
+        });
+      }
+    },
   },
   getters: {
     isLoading: (state) => state.loading.topAnimes,
@@ -148,5 +193,15 @@ export default createStore({
     isLoadingAllAnime: (state) => state.loading.allAnime,
     hasErrorAllAnime: (state) => state.error.allAnime !== null,
     errorMessageAllAnime: (state) => state.error.allAnime,
+    isLoadingSearch: (state) => state.loading.search,
+    hasErrorSearch: (state) => state.error.search !== null,
+    errorMessageSearch: (state) => state.error.search,
+    isLoadingManga: (state) => state.loading.topManga,
+    hasErrorManga: (state) => state.error.topManga !== null,
+    errorMessageManga: (state) => state.error.topManga,
+    isLoadingRecommendations: (state) => state.loading.animeRecommendations,
+    hasErrorRecommendations: (state) =>
+      state.error.animeRecommendations !== null,
+    errorMessageRecommendations: (state) => state.error.animeRecommendations,
   },
 });

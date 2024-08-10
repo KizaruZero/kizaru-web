@@ -4,19 +4,27 @@
     class="block"
   >
     <div
-      class="bg-white shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full w-full"
+      class="bg-black text-white rounded-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full w-full"
     >
       <img
         :src="animeImage"
         :alt="anime.title"
-        class="w-full h-64 object-cover"
+        class="w-full h-64 object-cover rounded-lg"
       />
       <div class="p-4 flex flex-col flex-1">
-        <h3 class="font-bold text-lg mb-2">{{ anime.title }}</h3>
         <!-- <p v-if="animeSynopsis" class="text-gray-600 text-sm flex-1">
           {{ animeSynopsis }}
         </p>
         <p v-else class="text-gray-600 text-sm flex-1">No synopsis available</p> -->
+        <!-- Display Genre -->
+        <p class="text-gray-400 font-medium text-sm">
+          <span v-if="anime.genres.length"></span>
+          <span v-for="(genre, index) in anime.genres" :key="index">
+            {{ genre.name
+            }}<span v-if="index < anime.genres.length - 1">, </span>
+          </span>
+        </p>
+        <h3 class="font-bold text-gray-300 text-lg">{{ anime.title }}</h3>
       </div>
     </div>
   </router-link>
@@ -40,7 +48,7 @@ export default {
     },
     animeSynopsis() {
       return this.anime.synopsis
-        ? `${this.anime.synopsis.substring(0, 100)}...`
+        ? `${this.anime.synopsis.substring(0, 50)}...`
         : null;
     },
   },

@@ -89,59 +89,66 @@
       </div>
     </div>
   </section>
-
-  <div class="flex">
-    <!-- Top Anime Section -->
-    <div class="flex-1 mr-8">
-      <section class="">
-        <h2 class="text-2xl font-bold mb-4">Top Anime of All Time</h2>
+  <section class="top-anime">
+    <div class="top">
+      <!-- Top Anime Section -->
+      <div class="">
+        <h2 class="text-2xl font-bold my-4">TOP ANIME</h2>
         <div v-if="isLoading">Loading...</div>
         <div v-else-if="hasError" class="text-red-500">
           {{ errorMessage }}
         </div>
+        <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
         <AnimeList v-else :animes="topAnimes" />
-      </section>
+      </div>
     </div>
-
-    <!-- Top Characters Section -->
-    <div class="w-1/5 flex mx-auto justify-center">
-      <section>
-        <h2 class="text-2xl font-bold mb-4">Top Characters</h2>
-        <div v-if="isLoadingCharacters">Loading...</div>
-        <div v-else-if="hasErrorCharacters" class="text-red-500">
-          {{ errorMessageCharacters }}
+    <div class="summer">
+      <!-- Top Anime Section -->
+      <div class="">
+        <h2 class="text-2xl font-bold my-4">ANIME THIS SEASON</h2>
+        <div v-if="isLoading">Loading...</div>
+        <div v-else-if="hasError" class="text-red-500">
+          {{ errorMessage }}
         </div>
-        <CharacterList v-else :characters="topCharacters" />
-      </section>
+        <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
+        <AnimeList v-else :animes="topAnimeThisSeason" />
+      </div>
     </div>
-  </div>
+    <div class="top-manga">
+      <!-- Top Anime Section -->
+      <div class="">
+        <h2 class="text-2xl font-bold my-4">TOP MANGA</h2>
+        <div v-if="isLoading">Loading...</div>
+        <div v-else-if="hasError" class="text-red-500">
+          {{ errorMessage }}
+        </div>
+        <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
+        <AnimeList v-else :animes="topManga" />
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
 import { onMounted, computed, nextTick } from "vue";
 import { useStore } from "vuex";
 import AnimeList from "@/components/AnimeList.vue";
-import CharacterList from "@/components/CharacterList.vue";
 import { Carousel } from "flowbite";
 
 const store = useStore();
 
 // State
 const topAnimes = computed(() => store.state.topAnimes);
-const topCharacters = computed(() => store.state.topCharacters);
+const topManga = computed(() => store.state.topManga);
+const topAnimeThisSeason = computed(() => store.state.topAnimeThisSeason);
 const isLoading = computed(() => store.getters.isLoading);
 const hasError = computed(() => store.getters.hasError);
 const errorMessage = computed(() => store.getters.errorMessage);
-const isLoadingCharacters = computed(() => store.getters.isLoadingCharacters);
-const hasErrorCharacters = computed(() => store.getters.hasErrorCharacters);
-const errorMessageCharacters = computed(
-  () => store.getters.errorMessageCharacters
-);
 
 const fetchTopAnimes = () => store.dispatch("fetchTopAnimes");
 const fetchTopAnimeThisSeason = () => store.dispatch("fetchTopAnimeThisSeason");
-const fetchTopCharacters = () => store.dispatch("fetchTopCharacters");
 const fetchAllAnime = () => store.dispatch("fetchAllAnime");
+const fetchTopManga = () => store.dispatch("fetchTopManga");
 
 const slides = [
   { image: require("@/assets/img/vinland-cover.jpg"), alt: "Anime 1" },
@@ -153,8 +160,8 @@ const slides = [
 onMounted(() => {
   fetchTopAnimes();
   fetchTopAnimeThisSeason();
-  fetchTopCharacters();
   fetchAllAnime();
+  fetchTopManga();
 
   nextTick(() => {
     const carouselElement = document.getElementById("carousel-example");

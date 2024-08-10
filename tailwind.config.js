@@ -4,9 +4,13 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js",
   ],
-  darkMode: false,
+  darkMode: true,
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Montserrat", "sans-serif"],
+      },
+    },
   },
   variants: {
     extend: {},
