@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="bg-white shadow-md overflow-hidden h-full w-full">
     <img
       :src="characterImage"
       :alt="character.name"

@@ -1,48 +1,29 @@
 <template>
-  <div>
-    <section class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">Top Anime of All Time</h2>
-      <div v-if="isLoading">Loading...</div>
-      <div v-else-if="hasError" class="text-red-500">{{ errorMessage }}</div>
-      <AnimeList v-else :animes="topAnimes" />
-    </section>
-
-    <section class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">Top Anime This Season</h2>
-      <div v-if="isLoadingSeasonAnime">Loading...</div>
-      <div v-else-if="hasErrorSeasonAnime" class="text-red-500">
-        {{ errorMessageSeasonAnime }}
-      </div>
-      <AnimeList v-else :animes="topAnimeThisSeason" />
-    </section>
-
-    <section class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">Top Characters</h2>
-      <div v-if="isLoadingCharacters">Loading...</div>
-      <div v-else-if="hasErrorCharacters" class="text-red-500">
-        {{ errorMessageCharacters }}
-      </div>
-      <CharacterList v-else :characters="topCharacters" />
-    </section>
-
-    <!-- <section>
-      <h2 class="text-2xl font-bold mb-4">All Anime</h2>
-      <div v-if="isLoadingAllAnime">Loading...</div>
-      <div v-else-if="hasErrorAllAnime" class="text-red-500">
-        {{ errorMessageAllAnime }}
-      </div>
-      <div v-else>
-        <AnimeList :animes="allAnime" />
-        <div class="mt-4 flex justify-center">
-          <button
-            @click="loadMoreAnime"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Load More
-          </button>
+  <div class="flex">
+    <!-- Top Anime Section -->
+    <div class="flex-1 mr-8">
+      <section class="">
+        <h2 class="text-2xl font-bold mb-4">Top Anime of All Time</h2>
+        <div v-if="isLoading">Loading...</div>
+        <div v-else-if="hasError" class="text-red-500">
+          {{ errorMessage }}
         </div>
-      </div>
-    </section> -->
+        <AnimeList v-else :animes="topAnimes" />
+      </section>
+    </div>
+
+    <!-- Top Characters Section -->
+
+    <div class="w-1/5 flex mx-auto justify-center">
+      <section>
+        <h2 class="text-2xl font-bold mb-4">Top Characters</h2>
+        <div v-if="isLoadingCharacters">Loading...</div>
+        <div v-else-if="hasErrorCharacters" class="text-red-500">
+          {{ errorMessageCharacters }}
+        </div>
+        <CharacterList v-else :characters="topCharacters" />
+      </section>
+    </div>
   </div>
 </template>
 

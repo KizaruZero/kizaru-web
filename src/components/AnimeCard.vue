@@ -4,7 +4,7 @@
     class="block"
   >
     <div
-      class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
+      class="bg-white shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full w-full"
     >
       <img
         :src="animeImage"
@@ -13,10 +13,10 @@
       />
       <div class="p-4 flex flex-col flex-1">
         <h3 class="font-bold text-lg mb-2">{{ anime.title }}</h3>
-        <p v-if="animeSynopsis" class="text-gray-600 text-sm flex-1">
+        <!-- <p v-if="animeSynopsis" class="text-gray-600 text-sm flex-1">
           {{ animeSynopsis }}
         </p>
-        <p v-else class="text-gray-600 text-sm flex-1">No synopsis available</p>
+        <p v-else class="text-gray-600 text-sm flex-1">No synopsis available</p> -->
       </div>
     </div>
   </router-link>
