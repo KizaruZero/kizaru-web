@@ -26,6 +26,9 @@ export default {
   getAnimeDetails(id) {
     return api.get(`/anime/${id}`);
   },
+  getCharacterDetails(id) {
+    return api.get(`/characters/${id}`);
+  },
   getAllAnime(page = 1) {
     return api.get(`/anime?page=${page}`);
   },

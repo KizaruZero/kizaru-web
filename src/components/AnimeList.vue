@@ -9,7 +9,6 @@
       disableOnInteraction: false,
     }"
     :navigation="true"
-    class="my-swiper"
   >
     <swiper-slide v-for="anime in validAnimes" :key="anime.mal_id">
       <AnimeCard :anime="anime" />
@@ -49,24 +48,3 @@ const validAnimes = computed(() =>
   )
 );
 </script>
-
-<style scoped>
-.my-swiper .swiper-button-next,
-.my-swiper .swiper-button-prev {
-  background-color: #000000; /* Example background color */
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-}
-
-.my-swiper .swiper-button-next::after,
-.my-swiper .swiper-button-prev::after {
-  color: rgb(211, 10, 10); /* Example arrow color */
-  font-size: 20px; /* Example arrow size */
-}
-
-.my-swiper .swiper-button-next:hover,
-.my-swiper .swiper-button-prev:hover {
-  background-color: #357abd; /* Example hover background color */
-}
-</style>

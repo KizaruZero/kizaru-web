@@ -9,7 +9,9 @@ export default createStore({
     topCharacters: [],
     animeRecommendations: [],
     allAnime: [],
+    charDetails: {},
     searchResults: [],
+    currentCharacter: [],
     currentPage: 1,
     loading: {
       topAnimes: false,
@@ -18,6 +20,7 @@ export default createStore({
       characters: false,
       animeRecommendations: false,
       allAnime: false,
+      charDetails: false,
     },
     error: {
       topAnimes: null,
@@ -26,6 +29,7 @@ export default createStore({
       characters: null,
       animeRecommendations: null,
       allAnime: null,
+      charDetails: null,
     },
   },
   mutations: {
@@ -40,6 +44,9 @@ export default createStore({
     },
     SET_CURRENT_ANIME(state, anime) {
       state.currentAnime = anime;
+    },
+    SET_CURRENT_CHARACTER(state, character) {
+      state.currentCharacter = character;
     },
     SET_TOP_ANIME_THIS_SEASON(state, animes) {
       state.topAnimeThisSeason = animes;
@@ -146,6 +153,20 @@ export default createStore({
         commit("SET_LOADING", false);
       }
     },
+
+    async fetchCharacterDetails({ commit }, id) {
+      commit("SET_LOADING", true);
+      try {
+        const response = await api.getCharacterDetails(id);
+        commit("SET_CURRENT_CHARACTER", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", "Failed to fetch anime details");
+        console.error("Error fetching anime details:", error);
+      } finally {
+        commit("SET_LOADING", false);
+      }
+    },
+
     async fetchAllAnime({ commit, state }) {
       commit("SET_LOADING", { key: "allAnime", isLoading: true });
       try {
@@ -203,5 +224,8 @@ export default createStore({
     hasErrorRecommendations: (state) =>
       state.error.animeRecommendations !== null,
     errorMessageRecommendations: (state) => state.error.animeRecommendations,
+    isLoadingCharDetails: (state) => state.loading.charDetails,
+    hasErrorCharDetails: (state) => state.error.charDetails !== null,
+    errorMessageCharDetails: (state) => state.error.char,
   },
 });

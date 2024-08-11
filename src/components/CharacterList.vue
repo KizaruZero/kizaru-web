@@ -1,26 +1,47 @@
 <template>
-  <div class="grid grid-cols-1 gap-y-4">
-    <CharacterCard
-      v-for="character in characters"
-      :key="character.mal_id"
-      :character="character"
-    />
-  </div>
+  <swiper
+    :pagination="{ clickable: true }"
+    :space-between="20"
+    :slides-per-view="1"
+    :breakpoints="breakpoints"
+    :autoplay="{
+      delay: 2000,
+      disableOnInteraction: false,
+    }"
+    :navigation="true"
+  >
+    <swiper-slide v-for="character in validAnimes" :key="character.mal_id">
+      <CharacterCard :character="character" />
+    </swiper-slide>
+  </swiper>
 </template>
 
-<script>
+<script setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/swiper-bundle.css";
+import { register } from "swiper/element/bundle";
+import { defineProps, computed } from "vue";
 import CharacterCard from "./CharacterCard.vue";
 
-export default {
-  name: "CharacterList",
-  components: {
-    CharacterCard,
+register();
+const props = defineProps({
+  characters: {
+    type: Array,
+    required: true,
   },
-  props: {
-    characters: {
-      type: Array,
-      required: true,
-    },
-  },
+});
+
+const breakpoints = {
+  640: { slidesPerView: 2 },
+  768: { slidesPerView: 3 },
+  1024: { slidesPerView: 4 },
 };
+
+// Compute validAnimes
+const validAnimes = computed(() =>
+  props.characters.filter(
+    (character) =>
+      character && typeof character === "object" && character.mal_id
+  )
+);
 </script>

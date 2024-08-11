@@ -5,6 +5,7 @@ import SearchView from "../views/SearchView.vue";
 import AnimeDetails from "../views/AnimeDetails.vue";
 import AnimePopular from "@/views/AnimePopular.vue";
 import CharPopular from "@/views/CharPopular.vue";
+import CharacterDetails from "@/views/CharacterDetails.vue";
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: "/popularChar",
     name: "popularChar",
     component: CharPopular,
+  },
+  {
+    path: "/characters/:id",
+    name: "CharacterDetails",
+    component: CharacterDetails,
   },
 ];
 
