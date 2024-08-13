@@ -12,11 +12,6 @@
         class="w-full h-64 object-cover rounded-lg"
       />
       <div class="p-4 flex flex-col flex-1">
-        <!-- <p v-if="animeSynopsis" class="text-gray-600 text-sm flex-1">
-          {{ animeSynopsis }}
-        </p>
-        <p v-else class="text-gray-600 text-sm flex-1">No synopsis available</p> -->
-        <!-- Display Genre -->
         <p class="text-gray-400 font-medium text-sm">
           <span v-if="anime.genres.length"></span>
           <span v-for="(genre, index) in anime.genres" :key="index">

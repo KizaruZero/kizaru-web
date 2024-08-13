@@ -1,74 +1,126 @@
 <template>
-  <div v-if="!isLoading && currentAnime">
-    <h1 class="text-3xl font-bold mb-4">{{ currentAnime.title }}</h1>
-    <div class="flex flex-col md:flex-row">
-      <img
-        :src="currentAnime.images.jpg.large_image_url"
-        :alt="currentAnime.title"
-        class="w-full h-full md:w-1/3 rounded-lg shadow-md mb-4 md:mb-0 md:mr-4"
-      />
-      <div class="flex-1">
-        <p class="mb-2"><strong>Score:</strong> {{ currentAnime.score }}</p>
-        <p class="mb-2">
-          <strong>Episodes:</strong> {{ currentAnime.episodes }}
-        </p>
-        <p class="mb-2"><strong>Status:</strong> {{ currentAnime.status }}</p>
-        <p class="mb-2"><strong>Type:</strong> {{ currentAnime.type }}</p>
-        <p class="mb-2"><strong>Rating:</strong> {{ currentAnime.rating }}</p>
-        <p class="mb-2"><strong>Season:</strong> {{ currentAnime.season }}</p>
-        <p class="mb-2"><strong>Year:</strong> {{ currentAnime.year }}</p>
-        <p class="mb-4">
-          <strong>Synopsis:</strong> {{ currentAnime.synopsis }}
-        </p>
-        <div class="mb-4">
-          <strong>Genres:</strong>
-          <ul>
-            <li v-for="genre in currentAnime.genres" :key="genre.mal_id">
+  <div
+    v-if="!isLoading && currentAnime"
+    class="bg-black text-white min-h-screen py-8"
+  >
+    <div class="container mx-auto px-4">
+      <!-- Header with Anime Image and Title -->
+      <div class="flex flex-col md:flex-row items-center mb-8">
+        <img
+          :src="
+            currentAnime.images?.jpg?.large_image_url ||
+            'https://via.placeholder.com/300x450?text=No+Image'
+          "
+          :alt="currentAnime.title"
+          class="w-full md:w-1/3 h-80 object-cover rounded-lg shadow-lg"
+        />
+        <div class="md:ml-8 flex flex-col mt-4 md:mt-0">
+          <h1 class="text-4xl font-bold mb-2">{{ currentAnime.title }}</h1>
+          <h2 class="text-xl text-gray-400 mb-4">
+            {{ currentAnime.title_english || currentAnime.title_japanese }}
+          </h2>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span
+              class="bg-teal-500 text-gray-900 px-3 py-1 rounded-full text-sm"
+              >{{ currentAnime.type }}</span
+            >
+            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm">{{
+              currentAnime.rating
+            }}</span>
+            <span class="bg-gray-800 px-3 py-1 rounded-full text-sm">{{
+              currentAnime.duration
+            }}</span>
+          </div>
+          <p class="text-gray-400 mb-4">
+            {{ currentAnime.synopsis.substring(0, 150) }}...
+          </p>
+          <a
+            :href="currentAnime.trailer?.url || '#'"
+            target="_blank"
+            class="bg-teal-500 text-gray-900 px-4 py-2 rounded-xl text-center hover:bg-teal-400 transition w-1/4"
+          >
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+
+      <!-- Additional Details Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Genres -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Genres</h3>
+          <ul class="list-disc pl-5 text-gray-400">
+            <li v-for="(genre, index) in currentAnime.genres" :key="index">
               {{ genre.name }}
             </li>
           </ul>
         </div>
-        <div class="mb-4">
-          <strong>Producers:</strong>
-          <ul>
+
+        <!-- Studios -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Studios</h3>
+          <ul class="list-disc pl-5 text-gray-400">
+            <li v-for="studio in currentAnime.studios" :key="studio.mal_id">
+              <a
+                :href="studio.url"
+                target="_blank"
+                class="hover:text-teal-400"
+                >{{ studio.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Producers -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Producers</h3>
+          <ul class="list-disc pl-5 text-gray-400">
             <li
               v-for="producer in currentAnime.producers"
               :key="producer.mal_id"
             >
-              {{ producer.name }}
+              <a
+                :href="producer.url"
+                target="_blank"
+                class="hover:text-teal-400"
+                >{{ producer.name }}</a
+              >
             </li>
           </ul>
         </div>
-        <div class="mb-4">
-          <strong>Studios:</strong>
-          <ul>
-            <li v-for="studio in currentAnime.studios" :key="studio.mal_id">
-              {{ studio.name }}
-            </li>
-          </ul>
-        </div>
-        <div class="mb-4">
-          <strong>Licensors:</strong>
-          <ul>
+
+        <!-- Licensors -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Licensors</h3>
+          <ul class="list-disc pl-5 text-gray-400">
             <li
               v-for="licensor in currentAnime.licensors"
               :key="licensor.mal_id"
             >
-              {{ licensor.name }}
+              <a
+                :href="licensor.url"
+                target="_blank"
+                class="hover:text-teal-400"
+                >{{ licensor.name }}</a
+              >
             </li>
           </ul>
         </div>
-        <div class="mb-4">
-          <strong>Themes:</strong>
-          <ul>
+
+        <!-- Themes -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Themes</h3>
+          <ul class="list-disc pl-5 text-gray-400">
             <li v-for="theme in currentAnime.themes" :key="theme.mal_id">
               {{ theme.name }}
             </li>
           </ul>
         </div>
-        <div class="mb-4">
-          <strong>Demographics:</strong>
-          <ul>
+
+        <!-- Demographics -->
+        <div>
+          <h3 class="text-2xl font-semibold mb-2">Demographics</h3>
+          <ul class="list-disc pl-5 text-gray-400">
             <li
               v-for="demographic in currentAnime.demographics"
               :key="demographic.mal_id"
@@ -78,20 +130,24 @@
           </ul>
         </div>
       </div>
-    </div>
-    <div v-if="currentAnime.trailer">
-      <h2 class="text-2xl font-semibold mt-6 mb-2">Trailer</h2>
-      <iframe
-        :src="`https://www.youtube.com/embed/${currentAnime.trailer.youtube_id}`"
-        class="w-full h-64"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+
+      <!-- Trailer Section -->
+      <div v-if="currentAnime.trailer" class="mt-8">
+        <h2 class="text-2xl font-semibold mb-2">Trailer</h2>
+        <iframe
+          :src="`https://www.youtube.com/embed/${currentAnime.trailer.youtube_id}`"
+          class="w-3/4 h-96 mx-auto rounded-xl"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
   </div>
-  <div v-else-if="isLoading">Loading...</div>
-  <div v-else-if="hasError" class="text-red-500">{{ errorMessage }}</div>
+  <div v-else-if="isLoading" class="text-center text-gray-400">Loading...</div>
+  <div v-else-if="hasError" class="text-red-500 text-center">
+    {{ errorMessage }}
+  </div>
 </template>
 
 <script>
@@ -104,14 +160,19 @@ export default {
     ...mapGetters(["isLoading", "hasError", "errorMessage"]),
   },
   methods: {
-    ...mapActions(["fetchAnimeDetails"]),
+    ...mapActions(["fetchAnimeDetails", "fetchCharByAnime"]),
+    loadAnimeCharacters() {
+      const animeId = this.$route.params.id;
+      this.fetchCharByAnime(animeId);
+    },
   },
   created() {
     this.fetchAnimeDetails(this.$route.params.id);
+    this.loadAnimeCharacters();
   },
 };
 </script>
 
 <style scoped>
-/* Add any custom styling here if needed */
+/* Add any custom styling or overrides here if needed */
 </style>

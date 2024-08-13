@@ -10,6 +10,7 @@ export default createStore({
     animeRecommendations: [],
     allAnime: [],
     charDetails: {},
+    charByAnime: [],
     searchResults: [],
     currentCharacter: [],
     currentPage: 1,
@@ -21,6 +22,7 @@ export default createStore({
       animeRecommendations: false,
       allAnime: false,
       charDetails: false,
+      charByAnime: false,
     },
     error: {
       topAnimes: null,
@@ -30,6 +32,7 @@ export default createStore({
       animeRecommendations: null,
       allAnime: null,
       charDetails: null,
+      charByAnime: null,
     },
   },
   mutations: {
@@ -59,6 +62,9 @@ export default createStore({
     },
     SET_ALL_ANIME(state, animes) {
       state.allAnime = [...state.allAnime, ...animes];
+    },
+    SET_CHAR_BY_ANIME(state, characters) {
+      state.charByAnime = characters;
     },
 
     INCREMENT_PAGE(state) {
@@ -182,7 +188,6 @@ export default createStore({
         commit("SET_LOADING", { key: "allAnime", isLoading: false });
       }
     },
-
     async fetchAnimeRecommendations({ commit }) {
       commit("SET_LOADING", { key: "animeRecommendations", isLoading: true });
       try {
@@ -198,6 +203,20 @@ export default createStore({
           key: "animeRecommendations",
           isLoading: false,
         });
+      }
+    },
+    async fetchCharByAnime({ commit }, id) {
+      commit("SET_LOADING", { key: "charByAnime", isLoading: true });
+      try {
+        const response = await api.getCharacterByAnime(id);
+        commit("SET_CHAR_BY_ANIME", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "charByAnime",
+          error: "Failed to fetch characters by anime",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "charByAnime", isLoading: false });
       }
     },
   },
@@ -227,5 +246,8 @@ export default createStore({
     isLoadingCharDetails: (state) => state.loading.charDetails,
     hasErrorCharDetails: (state) => state.error.charDetails !== null,
     errorMessageCharDetails: (state) => state.error.char,
+    isLoadingCharByAnime: (state) => state.loading.charByAnime,
+    hasErrorCharByAnime: (state) => state.error.charByAnime !== null,
+    errorMessageCharByAnime: (state) => state.error.charByAnime,
   },
 });

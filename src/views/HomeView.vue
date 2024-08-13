@@ -89,6 +89,20 @@
       </div>
     </div>
   </section>
+  <!-- <section class="bg-gradient-to-r from-black to-gray-800 text-white py-16">
+    <div class="container mx-auto text-center">
+      <h1 class="text-5xl font-bold mb-4">Welcome to Anime Universe</h1>
+      <p class="text-lg mb-6">
+        Explore your favorite anime and join the community!
+      </p>
+      <a
+        href="#explore"
+        class="bg-teal-500 text-black px-6 py-3 rounded-lg hover:bg-teal-400 transition"
+        >Start Exploring</a
+      >
+    </div>
+  </section> -->
+
   <section class="top-anime">
     <div class="top">
       <!-- Top Anime Section -->
@@ -127,6 +141,26 @@
       </div>
     </div>
   </section>
+  <!-- <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"
+  >
+    <div
+      class="bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
+    >
+      <img
+        src="anime-image.jpg"
+        alt="Anime Title"
+        class="w-full h-48 object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-2xl font-semibold text-teal-400 mb-2">Anime Title</h3>
+        <p class="text-gray-400 mb-4">A brief description about the anime.</p>
+        <span class="bg-teal-500 text-white px-2 py-1 rounded-full"
+          >Rating: 9.0</span
+        >
+      </div>
+    </div>
+  </div> -->
 </template>
 
 <script setup>

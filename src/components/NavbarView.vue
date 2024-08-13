@@ -156,8 +156,10 @@ const route = useRoute();
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Top Anime", href: "/animePopular", current: false },
-  { name: "Top Character", href: "/popularChar", current: false },
+  { name: "Anime", href: "/animePopular", current: false },
+  { name: "Manga", href: "/manga", current: false },
+  { name: "Character", href: "/popularChar", current: false },
+  { name: "News", href: "/news", current: false },
   { name: "Search", href: "/search", current: false },
 ];
 </script>

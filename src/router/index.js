@@ -6,12 +6,29 @@ import AnimeDetails from "../views/AnimeDetails.vue";
 import AnimePopular from "@/views/AnimePopular.vue";
 import CharPopular from "@/views/CharPopular.vue";
 import CharacterDetails from "@/views/CharacterDetails.vue";
+import MangaView from "@/views/MangaView.vue";
+import NewsView from "@/views/NewsView.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: HomeView,
+  },
+  {
+    path: "/search",
+    name: "SearchView",
+    component: SearchView,
+  },
+  {
+    path: "/manga",
+    name: "MangaView",
+    component: MangaView,
+  },
+  {
+    path: "/news",
+    name: "NewsView",
+    component: NewsView,
   },
   {
     path: "/search",

@@ -24,15 +24,18 @@ export default {
     return api.get(`/anime?q=${query}&page=${page}`);
   },
   getAnimeDetails(id) {
-    return api.get(`/anime/${id}`);
+    return api.get(`/anime/${id}/full`);
   },
   getCharacterDetails(id) {
-    return api.get(`/characters/${id}`);
+    return api.get(`/characters/${id}/full`);
   },
   getAllAnime(page = 1) {
     return api.get(`/anime?page=${page}`);
   },
   getRecentlyAddedAnimes(page = 1, limit = 15) {
     return api.get(`/anime?page=${page}&limit=${limit}`);
+  },
+  getCharacterByAnime(id) {
+    return api.get(`/anime/${id}/characters`);
   },
 };
