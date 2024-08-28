@@ -159,7 +159,8 @@ const navigation = [
   { name: "Anime", href: "/animePopular", current: false },
   { name: "Manga", href: "/manga", current: false },
   { name: "Character", href: "/popularChar", current: false },
-  { name: "News", href: "/news", current: false },
+  { name: "Roasting", href: "/roasting", current: false },
+  { name: "Anime Chat", href: "/chatAnime", current: false },
   { name: "Search", href: "/search", current: false },
 ];
 </script>
