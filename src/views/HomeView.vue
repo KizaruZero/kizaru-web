@@ -137,7 +137,7 @@
           {{ errorMessage }}
         </div>
         <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
-        <AnimeList v-else :animes="topManga" />
+        <MangaList v-else :mangas="topManga" />
       </div>
     </div>
   </section>
@@ -168,6 +168,7 @@ import { onMounted, computed, nextTick } from "vue";
 import { useStore } from "vuex";
 import AnimeList from "@/components/AnimeList.vue";
 import { Carousel } from "flowbite";
+import MangaList from "@/components/MangaList.vue";
 
 const store = useStore();
 

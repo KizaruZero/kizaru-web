@@ -131,41 +131,6 @@
         </div>
       </div>
 
-      <!-- Character Section -->
-      <!-- <div v-if="currentAnime?.characters?.length" class="mt-8">
-        <h2 class="text-2xl font-semibold mb-2">Characters</h2>
-        <CharacterList :characters="currentAnime.characters" />
-      </div>
-      <div v-else><h2>No characters available</h2></div> -->
-
-      <!-- Character Section -->
-      <div v-if="currentAnime.characters" class="mt-8">
-        <h2 class="text-2xl font-semibold mb-2">Characters</h2>
-        <div
-          class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          <div
-            v-for="character in currentAnime.characters"
-            :key="character.character.mal_id"
-            class="bg-gray-800 p-4 rounded-lg"
-          >
-            <img
-              :src="
-                character.character.images?.jpg?.image_url ||
-                character.character.images?.webp?.image_url ||
-                'https://via.placeholder.com/225x350?text=No+Image'
-              "
-              :alt="character.character.name"
-              class="w-full h-auto max-w-xs md:max-w-sm rounded-3xl shadow-lg mb-4"
-            />
-            <h3 class="text-xl font-semibold mt-2">
-              {{ character.character.name }}
-            </h3>
-            <p class="text-gray-400">{{ character.role }}</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Trailer Section -->
       <div v-if="currentAnime.trailer" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Trailer</h2>
@@ -185,42 +150,27 @@
   </div>
 </template>
 
-<script setup>
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
-import { useRoute } from "vue-router";
-// import CharacterList from "@/components/CharacterList.vue";
+<script>
+import { mapState, mapActions, mapGetters } from "vuex";
 
-const store = useStore();
-const route = useRoute();
-
-const currentAnime = computed(() => store.state.currentAnime);
-const isLoading = computed(() => store.getters.isLoading);
-const hasError = computed(() => store.getters.hasError);
-const errorMessage = computed(() => store.getters.errorMessage);
-// current animem character
-
-const fetchAnimeDetails = (id) => store.dispatch("fetchAnimeDetails", id);
-const fetchCharByAnime = (id) => store.dispatch("fetchCharByAnime", id);
-
-const loadAnimeCharacters = () => {
-  const animeId = route.params.id;
-  fetchCharByAnime(animeId);
+export default {
+  name: "MangaDetails",
+  computed: {
+    ...mapState(["currentAnime"]),
+    ...mapGetters(["isLoading", "hasError", "errorMessage"]),
+  },
+  methods: {
+    ...mapActions(["fetchAnimeDetails", "fetchCharByAnime"]),
+    loadAnimeCharacters() {
+      const animeId = this.$route.params.id;
+      this.fetchCharByAnime(animeId);
+    },
+  },
+  created() {
+    this.fetchAnimeDetails(this.$route.params.id);
+    this.loadAnimeCharacters();
+  },
 };
-
-onMounted(() => {
-  fetchAnimeDetails(route.params.id);
-  loadAnimeCharacters();
-
-  // Pastikan untuk mengakses characters setelah data di-load sepenuhnya
-  setTimeout(() => {
-    if (currentAnime.value && currentAnime.value.characters) {
-      console.log("Current Anime Characters:", currentAnime.value.characters);
-    } else {
-      console.log("Characters data is not yet available.");
-    }
-  }, 1000);
-});
 </script>
 
 <style scoped>

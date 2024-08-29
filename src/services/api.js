@@ -17,6 +17,9 @@ export default {
   getSeasonalAnimes(year = new Date().getFullYear(), season = "summer") {
     return api.get(`/seasons/${year}/${season}`);
   },
+  getSeasonalManga(year = new Date().getFullYear(), season = "summer") {
+    return api.get(`/seasons/${year}/${season}`);
+  },
   getTopCharacters(page = 1) {
     return api.get(`/top/characters?page=${page}`);
   },
@@ -25,6 +28,9 @@ export default {
   },
   getAnimeDetails(id) {
     return api.get(`/anime/${id}/full`);
+  },
+  getMangaDetails(id) {
+    return api.get(`/manga/${id}/full`);
   },
   getCharacterDetails(id) {
     return api.get(`/characters/${id}/full`);

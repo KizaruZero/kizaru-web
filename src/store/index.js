@@ -6,6 +6,7 @@ export default createStore({
     topAnimes: [],
     topManga: [],
     topAnimeThisSeason: [],
+    topMangaThisSeason: [],
     topCharacters: [],
     animeRecommendations: [],
     allAnime: [],
@@ -18,6 +19,7 @@ export default createStore({
       topAnimes: false,
       topManga: false,
       seasonAnime: false,
+      seasonManga: false,
       characters: false,
       animeRecommendations: false,
       allAnime: false,
@@ -28,6 +30,7 @@ export default createStore({
       topAnimes: null,
       topManga: null,
       seasonAnime: null,
+      seasonManga: null,
       characters: null,
       animeRecommendations: null,
       allAnime: null,
@@ -54,6 +57,9 @@ export default createStore({
     SET_TOP_ANIME_THIS_SEASON(state, animes) {
       state.topAnimeThisSeason = animes;
     },
+    SET_TOP_MANGA_THIS_SEASON(state, manga) {
+      state.topMangaThisSeason = manga;
+    },
     SET_TOP_CHARACTERS(state, characters) {
       state.topCharacters = characters;
     },
@@ -64,7 +70,9 @@ export default createStore({
       state.allAnime = [...state.allAnime, ...animes];
     },
     SET_CHAR_BY_ANIME(state, characters) {
-      state.charByAnime = characters;
+      if (state.currentAnime) {
+        state.currentAnime.characters = characters;
+      }
     },
 
     INCREMENT_PAGE(state) {
@@ -118,6 +126,20 @@ export default createStore({
         });
       } finally {
         commit("SET_LOADING", { key: "seasonAnime", isLoading: false });
+      }
+    },
+    async fetchTopMangaThisSeason({ commit }) {
+      commit("SET_LOADING", { key: "seasonManga", isLoading: true });
+      try {
+        const response = await api.getSeasonalManga();
+        commit("SET_TOP_MANGA_THIS_SEASON", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "seasonManga",
+          error: "Failed to fetch seasonal manga",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "seasonManga", isLoading: false });
       }
     },
     async fetchTopCharacters({ commit }) {
@@ -249,5 +271,8 @@ export default createStore({
     isLoadingCharByAnime: (state) => state.loading.charByAnime,
     hasErrorCharByAnime: (state) => state.error.charByAnime !== null,
     errorMessageCharByAnime: (state) => state.error.charByAnime,
+    isLoadingTopMangaThisSeason: (state) => state.loading.seasonManga,
+    hasErrorTopMangaThisSeason: (state) => state.error.seasonManga !== null,
+    errorMessageTopMangaThisSeason: (state) => state.error.seasonManga,
   },
 });
