@@ -9,6 +9,7 @@ import CharacterDetails from "@/views/CharacterDetails.vue";
 import MangaView from "@/views/MangaView.vue";
 import RoastingView from "@/views/RoastingView.vue";
 import ChatView from "@/views/ChatView.vue";
+import MangaDetails from "@/views/MangaDetails.vue";
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
     path: "/characters/:id",
     name: "CharacterDetails",
     component: CharacterDetails,
+  },
+  {
+    path: "/manga/:id",
+    name: "MangaDetails",
+    component: MangaDetails,
   },
   {
     path: "/roasting",

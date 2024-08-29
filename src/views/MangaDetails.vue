@@ -1,41 +1,45 @@
 <template>
   <div
-    v-if="!isLoading && currentAnime"
+    v-if="!isLoading && currentManga"
     class="bg-black text-white min-h-screen py-8"
   >
     <div class="container mx-auto px-4">
-      <!-- Header with Anime Image and Title -->
+      <!-- Header with Manga Image and Title -->
       <div class="flex flex-col md:flex-row items-center mb-8">
         <img
           :src="
-            currentAnime.images?.jpg?.large_image_url ||
+            currentManga.images?.jpg?.large_image_url ||
             'https://via.placeholder.com/300x450?text=No+Image'
           "
-          :alt="currentAnime.title"
+          :alt="currentManga.title"
           class="w-full md:w-1/3 h-80 object-cover rounded-lg shadow-lg"
         />
         <div class="md:ml-8 flex flex-col mt-4 md:mt-0">
-          <h1 class="text-4xl font-bold mb-2">{{ currentAnime.title }}</h1>
+          <h1 class="text-4xl font-bold mb-2">{{ currentManga.title }}</h1>
           <h2 class="text-xl text-gray-400 mb-4">
-            {{ currentAnime.title_english || currentAnime.title_japanese }}
+            {{ currentManga.title_english || currentManga.title_japanese }}
           </h2>
           <div class="flex flex-wrap gap-2 mb-4">
             <span
               class="bg-teal-500 text-gray-900 px-3 py-1 rounded-full text-sm"
-              >{{ currentAnime.type }}</span
+              >{{ currentManga.type }}</span
             >
             <span class="bg-gray-800 px-3 py-1 rounded-full text-sm">{{
-              currentAnime.rating
+              currentManga.volumes
             }}</span>
             <span class="bg-gray-800 px-3 py-1 rounded-full text-sm">{{
-              currentAnime.duration
+              currentManga.chapters
             }}</span>
+            <span
+              class="bg-teal-500 text-gray-900 px-3 py-1 rounded-full text-sm"
+              >{{ currentManga.status }}</span
+            >
           </div>
           <p class="text-gray-400 mb-4">
-            {{ currentAnime.synopsis.substring(0, 150) }}...
+            {{ currentManga.synopsis.substring(0, 150) }}...
           </p>
           <a
-            :href="currentAnime.trailer?.url || '#'"
+            :href="currentManga.trailer?.url || '#'"
             target="_blank"
             class="bg-teal-500 text-gray-900 px-4 py-2 rounded-xl text-center hover:bg-teal-400 transition w-1/4"
           >
@@ -50,7 +54,7 @@
         <div>
           <h3 class="text-2xl font-semibold mb-2">Genres</h3>
           <ul class="list-disc pl-5 text-gray-400">
-            <li v-for="(genre, index) in currentAnime.genres" :key="index">
+            <li v-for="(genre, index) in currentManga.genres" :key="index">
               {{ genre.name }}
             </li>
           </ul>
@@ -58,32 +62,38 @@
 
         <!-- Studios -->
         <div>
-          <h3 class="text-2xl font-semibold mb-2">Studios</h3>
-          <ul class="list-disc pl-5 text-gray-400">
-            <li v-for="studio in currentAnime.studios" :key="studio.mal_id">
-              <a
-                :href="studio.url"
-                target="_blank"
-                class="hover:text-teal-400"
-                >{{ studio.name }}</a
-              >
+          <h3 class="text-2xl font-semibold mb-2">Published By</h3>
+          <ul class="list-disc pl-5">
+            <!-- From Date -->
+            <li>
+              Published From:
+              {{ currentManga.published?.prop?.from?.day }}/
+              {{ currentManga.published?.prop?.from?.month }}/
+              {{ currentManga.published?.prop?.from?.year }}
             </li>
+
+            <!-- To Date -->
+            <li>
+              Published To:
+              {{ currentManga.published?.prop?.to?.day }}/
+              {{ currentManga.published?.prop?.to?.month }}/
+              {{ currentManga.published?.prop?.to?.year }}
+            </li>
+
+            <!-- Published Date as String -->
           </ul>
         </div>
 
         <!-- Producers -->
         <div>
-          <h3 class="text-2xl font-semibold mb-2">Producers</h3>
+          <h3 class="text-2xl font-semibold mb-2">Author</h3>
           <ul class="list-disc pl-5 text-gray-400">
-            <li
-              v-for="producer in currentAnime.producers"
-              :key="producer.mal_id"
-            >
+            <li v-for="authors in currentManga.authors" :key="authors.mal_id">
               <a
-                :href="producer.url"
+                :href="authors.url"
                 target="_blank"
                 class="hover:text-teal-400"
-                >{{ producer.name }}</a
+                >{{ authors.name }}</a
               >
             </li>
           </ul>
@@ -94,7 +104,7 @@
           <h3 class="text-2xl font-semibold mb-2">Licensors</h3>
           <ul class="list-disc pl-5 text-gray-400">
             <li
-              v-for="licensor in currentAnime.licensors"
+              v-for="licensor in currentManga.licensors"
               :key="licensor.mal_id"
             >
               <a
@@ -111,7 +121,7 @@
         <div>
           <h3 class="text-2xl font-semibold mb-2">Themes</h3>
           <ul class="list-disc pl-5 text-gray-400">
-            <li v-for="theme in currentAnime.themes" :key="theme.mal_id">
+            <li v-for="theme in currentManga.themes" :key="theme.mal_id">
               {{ theme.name }}
             </li>
           </ul>
@@ -122,7 +132,7 @@
           <h3 class="text-2xl font-semibold mb-2">Demographics</h3>
           <ul class="list-disc pl-5 text-gray-400">
             <li
-              v-for="demographic in currentAnime.demographics"
+              v-for="demographic in currentManga.demographics"
               :key="demographic.mal_id"
             >
               {{ demographic.name }}
@@ -132,10 +142,10 @@
       </div>
 
       <!-- Trailer Section -->
-      <div v-if="currentAnime.trailer" class="mt-8">
+      <div v-if="currentManga.trailer" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Trailer</h2>
         <iframe
-          :src="`https://www.youtube.com/embed/${currentAnime.trailer.youtube_id}`"
+          :src="`https://www.youtube.com/embed/${currentManga.trailer.youtube_id}`"
           class="w-3/4 h-96 mx-auto rounded-xl"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -150,29 +160,26 @@
   </div>
 </template>
 
-<script>
-import { mapState, mapActions, mapGetters } from "vuex";
+<script setup>
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+// import CharacterList from "@/components/CharacterList.vue";
 
-export default {
-  name: "MangaDetails",
-  computed: {
-    ...mapState(["currentAnime"]),
-    ...mapGetters(["isLoading", "hasError", "errorMessage"]),
-  },
-  methods: {
-    ...mapActions(["fetchAnimeDetails", "fetchCharByAnime"]),
-    loadAnimeCharacters() {
-      const animeId = this.$route.params.id;
-      this.fetchCharByAnime(animeId);
-    },
-  },
-  created() {
-    this.fetchAnimeDetails(this.$route.params.id);
-    this.loadAnimeCharacters();
-  },
-};
+const store = useStore();
+const route = useRoute();
+
+const currentManga = computed(() => store.state.currentManga);
+const isLoading = computed(() => store.getters.isLoading);
+const hasError = computed(() => store.getters.hasError);
+const errorMessage = computed(() => store.getters.errorMessage);
+// current Mangam character
+
+const fetchMangaDetails = (id) => store.dispatch("fetchMangaDetails", id);
+
+onMounted(() => {
+  fetchMangaDetails(route.params.id);
+
+  // Pastikan untuk mengakses characters setelah data di-load sepenuhnya
+});
 </script>
-
-<style scoped>
-/* Add any custom styling or overrides here if needed */
-</style>

@@ -132,11 +132,11 @@
       </div>
 
       <!-- Character Section -->
-      <!-- <div v-if="currentAnime?.characters?.length" class="mt-8">
+      <div v-if="currentAnime?.characters?.length" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Characters</h2>
-        <CharacterList :characters="currentAnime.characters" />
+        <CharacterList :characters="animeChar" />
       </div>
-      <div v-else><h2>No characters available</h2></div> -->
+      <div v-else><h2>No characters available</h2></div>
 
       <!-- Character Section -->
       <div v-if="currentAnime.characters" class="mt-8">
@@ -189,7 +189,7 @@
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-// import CharacterList from "@/components/CharacterList.vue";
+import CharacterList from "@/components/CharacterList.vue";
 
 const store = useStore();
 const route = useRoute();
@@ -198,6 +198,7 @@ const currentAnime = computed(() => store.state.currentAnime);
 const isLoading = computed(() => store.getters.isLoading);
 const hasError = computed(() => store.getters.hasError);
 const errorMessage = computed(() => store.getters.errorMessage);
+const animeChar = computed(() => store.state.currentAnime.characters);
 // current animem character
 
 const fetchAnimeDetails = (id) => store.dispatch("fetchAnimeDetails", id);

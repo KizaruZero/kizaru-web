@@ -51,6 +51,9 @@ export default createStore({
     SET_CURRENT_ANIME(state, anime) {
       state.currentAnime = anime;
     },
+    SET_CURRENT_MANGA(state, manga) {
+      state.currentManga = manga;
+    },
     SET_CURRENT_CHARACTER(state, character) {
       state.currentCharacter = character;
     },
@@ -177,6 +180,19 @@ export default createStore({
       } catch (error) {
         commit("SET_ERROR", "Failed to fetch anime details");
         console.error("Error fetching anime details:", error);
+      } finally {
+        commit("SET_LOADING", false);
+      }
+    },
+
+    async fetchMangaDetails({ commit }, id) {
+      commit("SET_LOADING", true);
+      try {
+        const response = await api.getMangaDetails(id);
+        commit("SET_CURRENT_MANGA", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", "Failed to fetch anime details");
+        console.error("Error fetching manga details:", error);
       } finally {
         commit("SET_LOADING", false);
       }
