@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.17.1",
     "@headlessui/vue": "^1.7.22",
     "@heroicons/vue": "^2.1.5",
     "axios": "^1.7.3",
