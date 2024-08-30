@@ -4,7 +4,7 @@
       <div id="carousel-example" class="relative w-full">
         <!-- Carousel wrapper -->
         <div
-          class="relative h-56 overflow-hidden rounded-lg sm:h-96 xl:h-96 2xl:h-96"
+          class="relative h-56 overflow-hidden rounded-lg sm:h-96 xl:h-screen 2xl:h-96"
         >
           <div
             v-for="(slide, index) in slides"
@@ -15,7 +15,7 @@
             <img
               :src="slide.image"
               :alt="slide.alt"
-              class="absolute left-1/2 top-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
+              class="w-full h-full object-cover"
             />
           </div>
         </div>
@@ -98,8 +98,8 @@ import { Carousel } from "flowbite";
 
 const slides = [
   { image: require("@/assets/img/vinland-cover.jpg"), alt: "Anime 1" },
-  { image: require("@/assets/img/vinland-cover.jpg"), alt: "Anime 2" },
-  { image: require("@/assets/img/vinland-cover.jpg"), alt: "Anime 3" },
+  { image: require("@/assets/img/jjk.jpg"), alt: "Anime 2" },
+  { image: require("@/assets/img/demon_slayer.jpg"), alt: "Anime 3" },
   { image: require("@/assets/img/vinland-cover.jpg"), alt: "Anime 4" },
 ];
 

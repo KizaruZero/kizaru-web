@@ -69,6 +69,10 @@ export default {
     return api.get(`/anime/${id}/characters`);
   },
 
+  getJadwal(page = 1) {
+    return api.get(`/schedules?page=${page}`);
+  },
+
   getAnimeStaff(id) {
     return api.get(`/anime/${id}/staff`);
   },
