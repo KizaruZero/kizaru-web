@@ -88,6 +88,7 @@ export async function chatAnime(userQuestion) {
     ${chatHistory.join("\n")}
 
     Answer with the same language as the user's question, and make sure the answer is informative and friendly.
+    Your name is : Kizaru Assistant
     AI: 
   `;
 

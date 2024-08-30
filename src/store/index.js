@@ -14,6 +14,7 @@ export default createStore({
     charByAnime: [],
     searchResults: [],
     currentCharacter: [],
+    animeStaff: [],
     currentPage: 1,
     loading: {
       topAnimes: false,
@@ -25,6 +26,7 @@ export default createStore({
       allAnime: false,
       charDetails: false,
       charByAnime: false,
+      animeStaff: false,
     },
     error: {
       topAnimes: null,
@@ -36,6 +38,7 @@ export default createStore({
       allAnime: null,
       charDetails: null,
       charByAnime: null,
+      animeStaff: null,
     },
   },
   mutations: {
@@ -76,6 +79,10 @@ export default createStore({
       if (state.currentAnime) {
         state.currentAnime.characters = characters;
       }
+    },
+
+    SET_STAFF_BY_ANIME(state, staff) {
+      state.animeStaff = staff;
     },
 
     INCREMENT_PAGE(state) {
@@ -257,6 +264,21 @@ export default createStore({
         commit("SET_LOADING", { key: "charByAnime", isLoading: false });
       }
     },
+
+    async fetchAnimeStaff({ commit }, id) {
+      commit("SET_LOADING", { key: "staffAnime", isLoading: true });
+      try {
+        const response = await api.getAnimeStaff(id);
+        commit("SET_STAFF_BY_ANIME", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "staffAnime",
+          error: "Failed to fetch staff by anime",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "staffAnime", isLoading: false });
+      }
+    },
   },
   getters: {
     isLoading: (state) => state.loading.topAnimes,
@@ -290,5 +312,8 @@ export default createStore({
     isLoadingTopMangaThisSeason: (state) => state.loading.seasonManga,
     hasErrorTopMangaThisSeason: (state) => state.error.seasonManga !== null,
     errorMessageTopMangaThisSeason: (state) => state.error.seasonManga,
+    isLoadingAnimeStaff: (state) => state.loading.staffAnime,
+    hasErrorAnimeStaff: (state) => state.error.staffAnime !== null,
+    errorMessageAnimeStaff: (state) => state.error.staffAnime,
   },
 });

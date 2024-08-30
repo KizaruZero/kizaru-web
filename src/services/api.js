@@ -44,4 +44,8 @@ export default {
   getCharacterByAnime(id) {
     return api.get(`/anime/${id}/characters`);
   },
+
+  getAnimeStaff(id) {
+    return api.get(`/anime/${id}/staff`);
+  },
 };

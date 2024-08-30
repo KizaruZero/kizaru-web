@@ -134,12 +134,13 @@
       <!-- Character Section -->
       <div v-if="currentAnime?.characters?.length" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Characters</h2>
-        <CharacterList :characters="animeChar" />
+        <p>ada karakter</p>
+        <CharacterList :characters="animeCharacters" />
       </div>
       <div v-else><h2>No characters available</h2></div>
 
       <!-- Character Section -->
-      <div v-if="currentAnime.characters" class="mt-8">
+      <!-- <div v-if="currentAnime.characters" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Characters</h2>
         <div
           class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
@@ -149,22 +150,30 @@
             :key="character.character.mal_id"
             class="bg-gray-800 p-4 rounded-lg"
           >
-            <img
-              :src="
-                character.character.images?.jpg?.image_url ||
-                character.character.images?.webp?.image_url ||
-                'https://via.placeholder.com/225x350?text=No+Image'
-              "
-              :alt="character.character.name"
-              class="w-full h-auto max-w-xs md:max-w-sm rounded-3xl shadow-lg mb-4"
-            />
-            <h3 class="text-xl font-semibold mt-2">
-              {{ character.character.name }}
-            </h3>
-            <p class="text-gray-400">{{ character.role }}</p>
+            <router-link
+              :to="{
+                name: 'CharacterDetails',
+                params: { id: character.character.mal_id },
+              }"
+              class="block"
+            >
+              <img
+                :src="
+                  character.character.images?.jpg?.image_url ||
+                  character.character.images?.webp?.image_url ||
+                  'https://via.placeholder.com/225x350?text=No+Image'
+                "
+                :alt="character.character.name"
+                class="w-full h-auto max-w-xs md:max-w-sm rounded-3xl shadow-lg mb-4"
+              />
+              <h3 class="text-xl font-semibold mt-2">
+                {{ character.character.name }}
+              </h3>
+              <p class="text-gray-400">{{ character.role }}</p>
+            </router-link>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Trailer Section -->
       <div v-if="currentAnime.trailer" class="mt-8">
@@ -198,30 +207,41 @@ const currentAnime = computed(() => store.state.currentAnime);
 const isLoading = computed(() => store.getters.isLoading);
 const hasError = computed(() => store.getters.hasError);
 const errorMessage = computed(() => store.getters.errorMessage);
-const animeChar = computed(() => store.state.currentAnime.characters);
+const animeStaff = computed(() => store.state.animeStaff);
+// const animeChar = computed(() => store.state.currentAnime.characters);
 // current animem character
 
 const fetchAnimeDetails = (id) => store.dispatch("fetchAnimeDetails", id);
 const fetchCharByAnime = (id) => store.dispatch("fetchCharByAnime", id);
+const fetchAnimeStaff = (id) => store.dispatch("fetchAnimeStaff", id);
 
 const loadAnimeCharacters = () => {
   const animeId = route.params.id;
   fetchCharByAnime(animeId);
 };
+// animeCharacters adalah sebuah computed property yang berisi array dari objek character yang diambil dari properti characters dalam objek currentAnime. Jika currentAnime atau characters tidak ada, animeCharacters akan menjadi array kosong.
+const animeCharacters = computed(
+  () => currentAnime.value?.characters.map((c) => c.character) || []
+);
 
 onMounted(() => {
   fetchAnimeDetails(route.params.id);
+  fetchAnimeStaff(route.params.id);
   loadAnimeCharacters();
 
   // Pastikan untuk mengakses characters setelah data di-load sepenuhnya
   setTimeout(() => {
-    if (currentAnime.value && currentAnime.value.characters) {
-      console.log("Current Anime Characters:", currentAnime.value.characters);
+    if (currentAnime.value && currentAnime.value.staff) {
+      console.log("Current Anime Staff:", animeStaff.value);
     } else {
       console.log("Characters data is not yet available.");
     }
+
+    console.log("Current Anime:", route.params.id);
   }, 1000);
 });
+
+// Format characters to match expected structure for CharacterList
 </script>
 
 <style scoped>
