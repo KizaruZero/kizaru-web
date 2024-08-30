@@ -9,6 +9,12 @@ export default createStore({
     topMangaThisSeason: [],
     topCharacters: [],
     animeRecommendations: [],
+    springAnime: [],
+    winterAnime: [],
+    summerAnime2023: [],
+    springAnime2023: [],
+    winterAnime2023: [],
+    fallAnime2023: [],
     allAnime: [],
     charDetails: {},
     charByAnime: [],
@@ -27,6 +33,12 @@ export default createStore({
       charDetails: false,
       charByAnime: false,
       animeStaff: false,
+      springAnime: false,
+      winterAnime: false,
+      summerAnime2023: false,
+      springAnime2023: false,
+      winterAnime2023: false,
+      fallAnime2023: false,
     },
     error: {
       topAnimes: null,
@@ -38,7 +50,13 @@ export default createStore({
       allAnime: null,
       charDetails: null,
       charByAnime: null,
+      springAnime: null,
       animeStaff: null,
+      winterAnime: null,
+      summerAnime2023: null,
+      springAnime2023: null,
+      winterAnime2023: null,
+      fallAnime2023: null,
     },
   },
   mutations: {
@@ -80,11 +98,29 @@ export default createStore({
         state.currentAnime.characters = characters;
       }
     },
-
     SET_STAFF_BY_ANIME(state, staff) {
       state.animeStaff = staff;
     },
 
+    SET_SPRING_ANIME(state, animes) {
+      state.springAnime = animes;
+    },
+    SET_WINTER_ANIME(state, animes) {
+      state.winterAnime = animes;
+    },
+
+    SET_SUMMER_ANIME_2023(state, animes) {
+      state.summerAnime2023 = animes;
+    },
+    SET_SPRING_ANIME_2023(state, animes) {
+      state.springAnime2023 = animes;
+    },
+    SET_WINTER_ANIME_2023(state, animes) {
+      state.winterAnime2023 = animes;
+    },
+    SET_FALL_ANIME_2023(state, animes) {
+      state.fallAnime2023 = animes;
+    },
     INCREMENT_PAGE(state) {
       state.currentPage++;
     },
@@ -96,7 +132,10 @@ export default createStore({
     },
   },
   actions: {
-    async fetchTopAnimes({ commit }) {
+    async fetchTopAnimes({ commit, state }) {
+      if (state.topAnimes.length > 0) {
+        return;
+      }
       commit("SET_LOADING", { key: "topAnimes", isLoading: true });
       try {
         const response = await api.getTopAnimes();
@@ -110,7 +149,10 @@ export default createStore({
         commit("SET_LOADING", { key: "topAnimes", isLoading: false });
       }
     },
-    async fetchTopManga({ commit }) {
+    async fetchTopManga({ commit, state }) {
+      if (state.topManga.length > 0) {
+        return;
+      }
       commit("SET_LOADING", { key: "topManga", isLoading: true });
       try {
         const response = await api.getTopManga();
@@ -124,7 +166,10 @@ export default createStore({
         commit("SET_LOADING", { key: "topManga", isLoading: false });
       }
     },
-    async fetchTopAnimeThisSeason({ commit }) {
+    async fetchTopAnimeThisSeason({ commit, state }) {
+      if (state.topAnimeThisSeason.length > 0) {
+        return;
+      }
       commit("SET_LOADING", { key: "seasonAnime", isLoading: true });
       try {
         const response = await api.getSeasonalAnimes();
@@ -138,7 +183,114 @@ export default createStore({
         commit("SET_LOADING", { key: "seasonAnime", isLoading: false });
       }
     },
-    async fetchTopMangaThisSeason({ commit }) {
+
+    async fetchSpringAnime({ commit, state }) {
+      if (state.springAnime.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "springAnime", isLoading: true });
+      try {
+        const response = await api.getSpringAnime();
+        commit("SET_SPRING_ANIME", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "springAnime",
+          error: "Failed to fetch spring anime",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "springAnime", isLoading: false });
+      }
+    },
+    async fetchWinterAnime({ commit, state }) {
+      if (state.winterAnime.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "winterAnime", isLoading: true });
+      try {
+        const response = await api.getWinterAnime();
+        commit("SET_WINTER_ANIME", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "winterAnime",
+          error: "Failed to fetch winter anime",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "winterAnime", isLoading: false });
+      }
+    },
+
+    async fetchSummerAnime2023({ commit, state }) {
+      if (state.summerAnime2023.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "summerAnime2023", isLoading: true });
+      try {
+        const response = await api.getSummerAnime2023();
+        commit("SET_SUMMER_ANIME_2023", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "summerAnime2023",
+          error: "Failed to fetch summer anime 2023",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "summerAnime2023", isLoading: false });
+      }
+    },
+    async fetchSpringAnime2023({ commit, state }) {
+      if (state.springAnime2023.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "springAnime2023", isLoading: true });
+      try {
+        const response = await api.getSpringAnime2023();
+        commit("SET_SPRING_ANIME_2023", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "springAnime2023",
+          error: "Failed to fetch spring anime 2023",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "springAnime2023", isLoading: false });
+      }
+    },
+    async fetchWinterAnime2023({ commit, state }) {
+      if (state.winterAnime2023.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "winterAnime2023", isLoading: true });
+      try {
+        const response = await api.getWinterAnime2023();
+        commit("SET_WINTER_ANIME_2023", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "winterAnime2023",
+          error: "Failed to fetch winter anime 2023",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "winterAnime2023", isLoading: false });
+      }
+    },
+    async fetchFallAnime2023({ commit, state }) {
+      if (state.fallAnime2023.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "fallAnime2023", isLoading: true });
+      try {
+        const response = await api.getFallAnime2023();
+        commit("SET_FALL_ANIME_2023", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "fallAnime2023",
+          error: "Failed to fetch fall anime 2023",
+        });
+      } finally {
+        commit("SET_LOADING", { key: "fallAnime2023", isLoading: false });
+      }
+    },
+    async fetchTopMangaThisSeason({ commit, state }) {
+      if (state.topMangaThisSeason.length > 0) {
+        return;
+      }
       commit("SET_LOADING", { key: "seasonManga", isLoading: true });
       try {
         const response = await api.getSeasonalManga();
@@ -152,7 +304,10 @@ export default createStore({
         commit("SET_LOADING", { key: "seasonManga", isLoading: false });
       }
     },
-    async fetchTopCharacters({ commit }) {
+    async fetchTopCharacters({ commit, state }) {
+      if (state.topCharacters.length > 0) {
+        return;
+      }
       commit("SET_LOADING", { key: "characters", isLoading: true });
       try {
         const response = await api.getTopCharacters();
@@ -168,57 +323,99 @@ export default createStore({
     },
     async searchAnimes({ commit }, query) {
       if (query.length < 3) return;
-      commit("SET_LOADING", true);
+      commit("SET_LOADING", { key: "search", isLoading: true });
       try {
         const response = await api.searchAnimes(query);
         commit("SET_SEARCH_RESULTS", response.data.data);
       } catch (error) {
-        commit("SET_ERROR", "Failed to search animes");
+        commit("SET_ERROR", {
+          key: "search",
+          error: "Failed to search animes",
+        });
         console.error("Error searching animes:", error);
       } finally {
-        commit("SET_LOADING", false);
+        commit("SET_LOADING", { key: "search", isLoading: false });
       }
     },
-    async fetchAnimeDetails({ commit }, id) {
-      commit("SET_LOADING", true);
+    async fetchAnimeDetails({ commit, state }, id) {
+      if (state.currentAnime && state.currentAnime.id === id) {
+        return;
+      }
+      commit("SET_LOADING", { key: "charDetails", isLoading: true });
       try {
         const response = await api.getAnimeDetails(id);
         commit("SET_CURRENT_ANIME", response.data.data);
       } catch (error) {
-        commit("SET_ERROR", "Failed to fetch anime details");
+        commit("SET_ERROR", {
+          key: "charDetails",
+          error: "Failed to fetch anime details",
+        });
         console.error("Error fetching anime details:", error);
       } finally {
-        commit("SET_LOADING", false);
+        commit("SET_LOADING", { key: "charDetails", isLoading: false });
       }
     },
-
-    async fetchMangaDetails({ commit }, id) {
-      commit("SET_LOADING", true);
+    async fetchMangaDetails({ commit, state }, id) {
+      if (state.currentManga && state.currentManga.id === id) {
+        return;
+      }
+      commit("SET_LOADING", { key: "charDetails", isLoading: true });
       try {
         const response = await api.getMangaDetails(id);
         commit("SET_CURRENT_MANGA", response.data.data);
       } catch (error) {
-        commit("SET_ERROR", "Failed to fetch anime details");
+        commit("SET_ERROR", {
+          key: "charDetails",
+          error: "Failed to fetch manga details",
+        });
         console.error("Error fetching manga details:", error);
       } finally {
-        commit("SET_LOADING", false);
+        commit("SET_LOADING", { key: "charDetails", isLoading: false });
       }
     },
-
-    async fetchCharacterDetails({ commit }, id) {
-      commit("SET_LOADING", true);
+    async fetchCharacterDetails({ commit, state }, id) {
+      if (state.currentCharacter && state.currentCharacter.id === id) {
+        return;
+      }
+      commit("SET_LOADING", { key: "charDetails", isLoading: true });
       try {
         const response = await api.getCharacterDetails(id);
         commit("SET_CURRENT_CHARACTER", response.data.data);
       } catch (error) {
-        commit("SET_ERROR", "Failed to fetch anime details");
-        console.error("Error fetching anime details:", error);
+        commit("SET_ERROR", {
+          key: "charDetails",
+          error: "Failed to fetch character details",
+        });
+        console.error("Error fetching character details:", error);
       } finally {
-        commit("SET_LOADING", false);
+        commit("SET_LOADING", { key: "charDetails", isLoading: false });
       }
     },
-
+    async fetchAnimeRecommendations({ commit, state }, id) {
+      if (state.animeRecommendations.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "animeRecommendations", isLoading: true });
+      try {
+        const response = await api.getAnimeRecommendations(id);
+        commit("SET_ANIME_RECOMMENDATIONS", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "animeRecommendations",
+          error: "Failed to fetch anime recommendations",
+        });
+        console.error("Error fetching anime recommendations:", error);
+      } finally {
+        commit("SET_LOADING", {
+          key: "animeRecommendations",
+          isLoading: false,
+        });
+      }
+    },
     async fetchAllAnime({ commit, state }) {
+      if (state.allAnime.length > 0 && state.loading.allAnime) {
+        return;
+      }
       commit("SET_LOADING", { key: "allAnime", isLoading: true });
       try {
         const response = await api.getAllAnime(state.currentPage);
@@ -229,25 +426,9 @@ export default createStore({
           key: "allAnime",
           error: "Failed to fetch all anime",
         });
+        console.error("Error fetching all anime:", error);
       } finally {
         commit("SET_LOADING", { key: "allAnime", isLoading: false });
-      }
-    },
-    async fetchAnimeRecommendations({ commit }) {
-      commit("SET_LOADING", { key: "animeRecommendations", isLoading: true });
-      try {
-        const response = await api.getRecentAnimeRecommendations();
-        commit("SET_ANIME_RECOMMENDATIONS", response.data.data);
-      } catch (error) {
-        commit("SET_ERROR", {
-          key: "animeRecommendations",
-          error: "Failed to fetch anime recommendations",
-        });
-      } finally {
-        commit("SET_LOADING", {
-          key: "animeRecommendations",
-          isLoading: false,
-        });
       }
     },
     async fetchCharByAnime({ commit }, id) {
@@ -264,19 +445,22 @@ export default createStore({
         commit("SET_LOADING", { key: "charByAnime", isLoading: false });
       }
     },
-
-    async fetchAnimeStaff({ commit }, id) {
-      commit("SET_LOADING", { key: "staffAnime", isLoading: true });
+    async fetchStaffByAnime({ commit, state }, id) {
+      if (state.animeStaff.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "animeStaff", isLoading: true });
       try {
-        const response = await api.getAnimeStaff(id);
+        const response = await api.getStaffByAnime(id);
         commit("SET_STAFF_BY_ANIME", response.data.data);
       } catch (error) {
         commit("SET_ERROR", {
-          key: "staffAnime",
+          key: "animeStaff",
           error: "Failed to fetch staff by anime",
         });
+        console.error("Error fetching staff by anime:", error);
       } finally {
-        commit("SET_LOADING", { key: "staffAnime", isLoading: false });
+        commit("SET_LOADING", { key: "animeStaff", isLoading: false });
       }
     },
   },

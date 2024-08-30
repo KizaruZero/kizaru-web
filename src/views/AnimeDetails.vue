@@ -134,7 +134,6 @@
       <!-- Character Section -->
       <div v-if="currentAnime?.characters?.length" class="mt-8">
         <h2 class="text-2xl font-semibold mb-2">Characters</h2>
-        <p>ada karakter</p>
         <CharacterList :characters="animeCharacters" />
       </div>
       <div v-else><h2>No characters available</h2></div>

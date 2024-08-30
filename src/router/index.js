@@ -10,6 +10,7 @@ import MangaView from "@/views/MangaView.vue";
 import RoastingView from "@/views/RoastingView.vue";
 import ChatView from "@/views/ChatView.vue";
 import MangaDetails from "@/views/MangaDetails.vue";
+import Anime2023 from "@/views/Anime2023View.vue";
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     path: "/animePopular",
     name: "animePopular",
     component: AnimePopular,
+  },
+  {
+    path: "/anime2023",
+    name: "Anime2023",
+    component: Anime2023,
   },
   {
     path: "/popularChar",

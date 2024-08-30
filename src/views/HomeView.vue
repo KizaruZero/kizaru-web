@@ -50,6 +50,19 @@
         <MangaList v-else :mangas="topManga" />
       </div>
     </div>
+
+    <div class="top-char">
+      <!-- Top Anime Section -->
+      <div class="">
+        <h2 class="text-2xl font-bold my-4">TOP CHARACTERS</h2>
+        <div v-if="isLoading">Loading...</div>
+        <div v-else-if="hasError" class="text-red-500">
+          {{ errorMessage }}
+        </div>
+        <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
+        <CharacterList v-else :characters="topCharacters" />
+      </div>
+    </div>
   </section>
   <!-- <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"
@@ -77,6 +90,8 @@
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import AnimeList from "@/components/AnimeList.vue";
+import MangaList from "@/components/MangaList.vue";
+import CharacterList from "@/components/CharacterList.vue";
 
 const store = useStore();
 
@@ -84,6 +99,7 @@ const store = useStore();
 const topAnimes = computed(() => store.state.topAnimes);
 const topManga = computed(() => store.state.topManga);
 const topAnimeThisSeason = computed(() => store.state.topAnimeThisSeason);
+const topCharacters = computed(() => store.state.topCharacters);
 const isLoading = computed(() => store.getters.isLoading);
 const hasError = computed(() => store.getters.hasError);
 const errorMessage = computed(() => store.getters.errorMessage);
@@ -92,11 +108,13 @@ const fetchTopAnimes = () => store.dispatch("fetchTopAnimes");
 const fetchTopAnimeThisSeason = () => store.dispatch("fetchTopAnimeThisSeason");
 const fetchAllAnime = () => store.dispatch("fetchAllAnime");
 const fetchTopManga = () => store.dispatch("fetchTopManga");
+const fetchTopCharacters = () => store.dispatch("fetchTopCharacters");
 
 onMounted(() => {
   fetchTopAnimes();
   fetchTopAnimeThisSeason();
   fetchAllAnime();
   fetchTopManga();
+  fetchTopCharacters();
 });
 </script>

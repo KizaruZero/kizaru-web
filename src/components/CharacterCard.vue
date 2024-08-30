@@ -7,7 +7,7 @@
       <img
         :src="characterImage"
         :alt="character.name"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover rounded-2xl"
       />
       <div class="p-4">
         <h3 class="font-bold text-lg mb-2">{{ character.name }}</h3>
