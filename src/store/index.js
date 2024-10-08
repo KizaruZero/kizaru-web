@@ -21,6 +21,7 @@ export default createStore({
     searchResults: [],
     currentCharacter: [],
     animeStaff: [],
+    jadwalAnime: [],
     currentPage: 1,
     loading: {
       topAnimes: false,
@@ -39,6 +40,7 @@ export default createStore({
       springAnime2023: false,
       winterAnime2023: false,
       fallAnime2023: false,
+      jadwalAnime: false,
     },
     error: {
       topAnimes: null,
@@ -57,6 +59,7 @@ export default createStore({
       springAnime2023: null,
       winterAnime2023: null,
       fallAnime2023: null,
+      jadwalAnime: null,
     },
   },
   mutations: {
@@ -121,6 +124,11 @@ export default createStore({
     SET_FALL_ANIME_2023(state, animes) {
       state.fallAnime2023 = animes;
     },
+
+    SET_JADWALL_ANIME(state, animes) {
+      state.jadwalAnime = animes;
+    },
+
     INCREMENT_PAGE(state) {
       state.currentPage++;
     },
@@ -461,6 +469,24 @@ export default createStore({
         console.error("Error fetching staff by anime:", error);
       } finally {
         commit("SET_LOADING", { key: "animeStaff", isLoading: false });
+      }
+    },
+    async fetchJadwalAnime({ commit, state }) {
+      if (state.jadwalAnime.length > 0) {
+        return;
+      }
+      commit("SET_LOADING", { key: "jadwalAnime", isLoading: true });
+      try {
+        const response = await api.getJadwal();
+        commit("SET_JADWALL_ANIME", response.data.data);
+      } catch (error) {
+        commit("SET_ERROR", {
+          key: "jadwalAnime",
+          error: "Failed to fetch jadwal anime",
+        });
+        console.error("Error fetching jadwal anime:", error);
+      } finally {
+        commit("SET_LOADING", { key: "jadwalAnime", isLoading: false });
       }
     },
   },

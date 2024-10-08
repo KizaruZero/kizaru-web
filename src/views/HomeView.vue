@@ -26,6 +26,18 @@
         <AnimeList v-else :animes="topAnimes" />
       </div>
     </div>
+    <div class="jadwal-anime">
+      <!-- Top Anime Section -->
+      <div class="">
+        <h2 class="text-2xl font-bold my-4">ANIME SCHEDULES</h2>
+        <div v-if="isLoading">Loading...</div>
+        <div v-else-if="hasError" class="text-red-500">
+          {{ errorMessage }}
+        </div>
+        <!-- Penting disini , animes ini untuk meneria data dari topaAnime dari vuex,dan diterskan ke AnimeList, jdi kalau merubah nama disiin. -->
+        <AnimeList v-else :animes="jadwalAnime" />
+      </div>
+    </div>
     <div class="summer">
       <!-- Top Anime Section -->
       <div class="">
@@ -98,6 +110,7 @@ const store = useStore();
 // State
 const topAnimes = computed(() => store.state.topAnimes);
 const topManga = computed(() => store.state.topManga);
+const jadwalAnime = computed(() => store.state.jadwalAnime);
 const topAnimeThisSeason = computed(() => store.state.topAnimeThisSeason);
 const topCharacters = computed(() => store.state.topCharacters);
 const isLoading = computed(() => store.getters.isLoading);
@@ -109,6 +122,7 @@ const fetchTopAnimeThisSeason = () => store.dispatch("fetchTopAnimeThisSeason");
 const fetchAllAnime = () => store.dispatch("fetchAllAnime");
 const fetchTopManga = () => store.dispatch("fetchTopManga");
 const fetchTopCharacters = () => store.dispatch("fetchTopCharacters");
+const fetchJadwalAnime = () => store.dispatch("fetchJadwalAnime");
 
 onMounted(() => {
   fetchTopAnimes();
@@ -116,5 +130,6 @@ onMounted(() => {
   fetchAllAnime();
   fetchTopManga();
   fetchTopCharacters();
+  fetchJadwalAnime();
 });
 </script>
