@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: process.env.NODE_ENV === "production" ? "/kizaru-web/" : "/",
+  publicPath: "/",
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
